@@ -14,8 +14,10 @@ export default function TodoApp() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editingTitle, setEditingTitle] = useState("");
 
+  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+
   useEffect(() => {
-    fetch("http://localhost:8080/tasks")
+    fetch(`${apiUrl}/tasks`)
       .then((res) => res.json())
       .then(setTasks)
       .catch((err) => console.error("Failed to load tasks:", err));
@@ -23,7 +25,7 @@ export default function TodoApp() {
 
   const addTask = async () => {
     if (!newTask.trim()) return;
-    const res = await fetch("http://localhost:8080/tasks", {
+    const res = await fetch(`${apiUrl}/tasks`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title: newTask, done: false }),
@@ -36,7 +38,7 @@ export default function TodoApp() {
   };
 
   const toggleDone = async (id: number, done: boolean) => {
-    const res = await fetch(`http://localhost:8080/tasks/${id}/status`, {
+    const res = await fetch(`${apiUrl}/tasks/${id}/status`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ done: !done }),
@@ -47,7 +49,7 @@ export default function TodoApp() {
   };
 
   const deleteTask = async (id: number) => {
-    const res = await fetch(`http://localhost:8080/tasks/${id}`, {
+    const res = await fetch(`${apiUrl}/tasks/${id}`, {
       method: "DELETE",
     });
     if (res.ok) {
@@ -65,7 +67,7 @@ export default function TodoApp() {
       setEditingId(null);
       return;
     }
-    const res = await fetch(`http://localhost:8080/tasks/${id}`, {
+    const res = await fetch(`${apiUrl}/tasks/${id}`, {
       method: "PATCH",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ title: editingTitle }),
