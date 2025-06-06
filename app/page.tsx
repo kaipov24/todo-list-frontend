@@ -93,51 +93,53 @@ export default function TodoApp() {
           </button>
         </div>
         <ul className="todo-list">
-          {tasks.map((task, index) => (
-            <li
-              key={task.id}
-              className={`todo-list-item${task.done ? " done" : ""}`}
-            >
-              <label className="todo-checkbox-label">
-                <input
-                  type="checkbox"
-                  checked={task.done}
-                  onChange={() => toggleDone(task.id, task.done)}
-                  className="todo-checkbox"
-                />
-                {editingId === task.id ? (
+          {[...tasks]
+            .sort((a, b) => Number(a.done) - Number(b.done))
+            .map((task, index) => (
+              <li
+                key={task.id}
+                className={`todo-list-item${task.done ? " done" : ""}`}
+              >
+                <label className="todo-checkbox-label">
                   <input
-                    className="todo-edit-input"
-                    value={editingTitle}
-                    autoFocus
-                    onChange={e => setEditingTitle(e.target.value)}
-                    onBlur={() => finishEditing(task.id)}
-                    onKeyDown={e => {
-                      if (e.key === "Enter") finishEditing(task.id);
-                      if (e.key === "Escape") setEditingId(null);
-                    }}
+                    type="checkbox"
+                    checked={task.done}
+                    onChange={() => toggleDone(task.id, task.done)}
+                    className="todo-checkbox"
                   />
-                ) : (
-                  <span
-                    className="todo-task-title"
-                    onDoubleClick={() => startEditing(task.id, task.title)}
-                    title="Double-click to edit"
+                  {editingId === task.id ? (
+                    <input
+                      className="todo-edit-input"
+                      value={editingTitle}
+                      autoFocus
+                      onChange={e => setEditingTitle(e.target.value)}
+                      onBlur={() => finishEditing(task.id)}
+                      onKeyDown={e => {
+                        if (e.key === "Enter") finishEditing(task.id);
+                        if (e.key === "Escape") setEditingId(null);
+                      }}
+                    />
+                  ) : (
+                    <span
+                      className="todo-task-title"
+                      onDoubleClick={() => startEditing(task.id, task.title)}
+                      title="Double-click to edit"
+                    >
+                      {task.title}
+                    </span>
+                  )}
+                </label>
+                <div className="todo-actions">
+                  <button
+                    className="todo-delete-btn"
+                    onClick={() => deleteTask(task.id)}
+                    title="Delete"
                   >
-                    {task.title}
-                  </span>
-                )}
-              </label>
-              <div className="todo-actions">
-                <button
-                  className="todo-delete-btn"
-                  onClick={() => deleteTask(task.id)}
-                  title="Delete"
-                >
-                  ✕
-                </button>
-              </div>
-            </li>
-          ))}
+                    ✕
+                  </button>
+                </div>
+              </li>
+            ))}
         </ul>
       </div>
     </main>
