@@ -120,16 +120,34 @@ export default function TodoApp() {
                       }}
                     />
                   ) : (
-                    <span
-                      className="todo-task-title"
-                      onDoubleClick={() => startEditing(task.id, task.title)}
-                      title="Double-click to edit"
-                    >
+                    <span className="todo-task-title">
                       {task.title}
                     </span>
                   )}
                 </label>
                 <div className="todo-actions">
+                  <button
+                    className="todo-edit-btn"
+                    onClick={() => startEditing(task.id, task.title)}
+                    title="Edit"
+                    disabled={editingId === task.id}
+                    style={{ marginRight: 8 }}
+                  >
+         
+                    <svg
+                      width="20"
+                      height="20"
+                      viewBox="0 0 20 20"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                      style={{ verticalAlign: "middle" }}
+                    >
+                      <path
+                        d="M14.85 2.85a1.2 1.2 0 0 1 1.7 1.7l-9.1 9.1-2.1.4.4-2.1 9.1-9.1ZM3 17h14v-2H3v2Z"
+                        fill="currentColor"
+                      />
+                    </svg>
+                  </button>
                   <button
                     className="todo-delete-btn"
                     onClick={() => deleteTask(task.id)}
