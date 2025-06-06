@@ -14,7 +14,7 @@ export default function TodoApp() {
   const [editingId, setEditingId] = useState<number | null>(null);
   const [editingTitle, setEditingTitle] = useState("");
 
-  const apiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:8080";
+  const apiUrl = process.env.API_URL || "http://localhost:8080";
 
   useEffect(() => {
     fetch(`${apiUrl}/tasks`)
